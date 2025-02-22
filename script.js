@@ -1,45 +1,5 @@
-let users = JSON.parse(localStorage.getItem('users')) || {};
-let currentUser = null;
-
-function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const message = document.getElementById('message');
-
-    if (!username || !password) {
-        message.textContent = 'Please enter both username and password.';
-        return;
-    }
-
-    if (!users[username]) {
-        users[username] = {
-            password: password,
-            series: []
-        };
-        message.textContent = 'Account created! Logging in...';
-    } else if (users[username].password !== password) {
-        message.textContent = 'Incorrect password.';
-        return;
-    } else {
-        message.textContent = 'Logged in successfully!';
-    }
-
-    currentUser = username;
-    localStorage.setItem('users', JSON.stringify(users));
-    document.getElementById('login-container').style.display = 'none';
-    document.getElementById('tracker-container').style.display = 'block';
-    document.getElementById('current-user').textContent = username;
-    loadSeries();
-}
-
-function logout() {
-    currentUser = null;
-    document.getElementById('login-container').style.display = 'block';
-    document.getElementById('tracker-container').style.display = 'none';
-    document.getElementById('username').value = '';
-    document.getElementById('password').value = '';
-    document.getElementById('message').textContent = '';
-}
+// Load data from local storage
+let series = JSON.parse(localStorage.getItem('series')) || [];
 
 function addSeries() {
     const name = document.getElementById('series-name').value;
@@ -50,14 +10,14 @@ function addSeries() {
         return;
     }
 
-    const series = {
+    const newSeries = {
         name: name,
         season: season,
         episode: 1
     };
 
-    users[currentUser].series.push(series);
-    localStorage.setItem('users', JSON.stringify(users));
+    series.push(newSeries);
+    localStorage.setItem('series', JSON.stringify(series));
     document.getElementById('series-name').value = '';
     document.getElementById('season').value = '';
     loadSeries();
@@ -67,11 +27,11 @@ function loadSeries() {
     const seriesList = document.getElementById('series-list');
     seriesList.innerHTML = '';
 
-    users[currentUser].series.forEach((series, index) => {
+    series.forEach((seriesItem, index) => {
         const div = document.createElement('div');
         div.className = 'series';
         div.innerHTML = `
-            <h3>${series.name} - Season ${series.season}, Episode ${series.episode}</h3>
+            <h3>${seriesItem.name} - Season ${seriesItem.season}, Episode ${seriesItem.episode}</h3>
             <button class="finished-btn" onclick="finishEpisode(${index})">Finished Episode</button>
             <button class="delete-btn" onclick="deleteSeries(${index})">Delete Series</button>
         `;
@@ -80,13 +40,16 @@ function loadSeries() {
 }
 
 function finishEpisode(index) {
-    users[currentUser].series[index].episode++;
-    localStorage.setItem('users', JSON.stringify(users));
+    series[index].episode++;
+    localStorage.setItem('series', JSON.stringify(series));
     loadSeries();
 }
 
 function deleteSeries(index) {
-    users[currentUser].series.splice(index, 1); // Remove the series at the given index
-    localStorage.setItem('users', JSON.stringify(users));
-    loadSeries(); // Refresh the list
+    series.splice(index, 1);
+    localStorage.setItem('series', JSON.stringify(series));
+    loadSeries();
 }
+
+// Load series on page load
+window.onload = loadSeries;
