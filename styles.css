@@ -1,44 +1,91 @@
 body {
     font-family: Arial, sans-serif;
-    max-width: 800px;
+    max-width: 800px; /* Increased to match panel widths, no gray gap */
     margin: 0 auto;
-    padding: 20px;
+    padding: 100px;
+    background-color: #1C1C1C; /* Deep dark gray, modern and sleek */
+    color: #FFFFFF; /* White text for contrast */
 }
 
 input, button {
     margin: 5px;
     padding: 5px;
+    background-color: #444444; /* Medium gray for inputs/buttons */
+    border: 1px solid #666666; /* Slightly lighter gray border for contrast */
+    color: #FFFFFF; /* White text */
 }
 
 button {
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color: #1E90FF; /* Dodger blue, vibrant accent */
     color: white;
     border: none;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #007BFF; /* Darker blue on hover */
 }
 
 .series {
-    border: 1px solid #ccc;
+    border: 1px solid #666666; /* Lighter gray border for series panels */
     padding: 10px;
     margin: 10px 0;
+    background-color: #4B0082; /* Dark purple for series panels */
+    color: #FFFFFF; /* White text on dark purple for readability */
 }
 
 .finished-btn {
-    background-color: #008CBA;
+    background-color: #2ECC40; /* Vibrant green for finished button */
 }
 
 .finished-btn:hover {
-    background-color: #007B9A;
+    background-color: #27AE60; /* Slightly darker green on hover */
 }
 
 .delete-btn {
-    background-color: #f44336;
+    background-color: #000000; /* Black for delete button */
 }
 
 .delete-btn:hover {
-    background-color: #da190b;
+    background-color: #333333; /* Slightly lighter black on hover */
+}
+
+.left-panel, .right-panel {
+    width: 400px; /* Side panels unchanged, 400px wide */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.left-panel {
+    left: 0;
+    background-image: url('popcorn.jpg'); /* Chuck Norris image */
+}
+
+.right-panel {
+    right: 0;
+    background-image: url('projection.jpg'); /* Movie theater POV image */
+}
+
+#tracker-container {
+    margin: 0; /* Remove margins to span full width between panels */
+    width: 100%; /* Ensure it takes full width within body max-width */
+    max-width: 1200px; /* Match body max-width to avoid overflow */
+    background-color: #2D2D2D; /* Darker gray for the main tracker panel */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2); /* Subtle black shadow for depth */
+    color: #FFFFFF; /* White text for contrast */
+}
+
+@media (max-width: 768px) {
+    .left-panel, .right-panel {
+        display: none; /* Hide panels on mobile */
+    }
+    #tracker-container {
+        margin: 0 20px; /* Reduce margin on mobile */
+        max-width: 100%; /* Full width on mobile */
+    }
 }
